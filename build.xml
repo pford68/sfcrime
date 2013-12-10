@@ -1,0 +1,134 @@
+<project id="crimeViz" name="crime-visualization" basedir="." default="deploy-js">
+
+    <!-- ====================================================================================
+
+    DESCRIPTION:  Ant scripts for the JavaScript builds.
+    AUTHOR:  Philip Ford
+    COMMENTS:
+
+    =======================================================================================-->
+
+    <property environment="env"/>
+    <property file="build.properties" />
+
+    <target name="deploy-war"
+            description="For redeploying the entire J2EE app">
+        <delete file="${dev.deploy.dir}/${ant.project.name}.war" />
+        <delete dir="${dev.deploy.dir}/{ant.project.name}" />
+        <copy todir="${dev.deploy.dir}" file="${project.war}" />
+    </target>
+
+    <target name="deploy-all" depends="deploy-js, deploy-css, deploy-images, deploy-markup">
+        <delete dir="${dev.deploy.dir}/{ant.project.name}/WEB-INF" />
+        <delete dir="${dev.deploy.dir}/{ant.project.name}/lib" />
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/WEB-INF">
+            <fileset dir="${src.webapp.dir}/WEB-INF" />
+        </copy>
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/lib">
+            <fileset dir="${src.webapp.dir}/lib" />
+        </copy>
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/lib">
+            <fileset dir="${src.common.lib.dir}" />
+        </copy>
+    </target>
+
+    <target name="deploy-js"
+            description="For deploying JavaScript changes and tests to a server, required for anything that uses AJAX.">
+        <delete dir="${dev.deploy.dir}/${ant.project.name}/js" />
+        <mkdir dir="${dev.deploy.dir}/${ant.project.name}/js" />
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/js">
+            <fileset dir="${src.webapp.dir}/js" />
+        </copy>
+    </target>
+
+    <target name="deploy-css"
+            description="For deploying CSS changes.">
+        <delete dir="${dev.deploy.dir}/${ant.project.name}/css" />
+        <mkdir dir="${dev.deploy.dir}/${ant.project.name}/css" />
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/css">
+            <fileset dir="${src.webapp.dir}/css" />
+        </copy>
+    </target>
+
+    <target name="deploy-images"
+            description="For deploying image changes.">
+        <delete dir="${dev.deploy.dir}/${ant.project.name}/images" />
+        <mkdir dir="${dev.deploy.dir}/${ant.project.name}/images" />
+        <copy todir="${dev.deploy.dir}/${ant.project.name}/images">
+            <fileset dir="${src.webapp.dir}/images" />
+        </copy>
+    </target>
+
+    <target name="deploy-markup"
+            description="For deploying markup changes and tests to a server, required for anything that uses AJAX.">
+        <delete dir="${dev.deploy.dir}/${ant.project.name}/html" />
+        <copy todir="${dev.deploy.dir}/${ant.project.name}">
+            <fileset dir="${src.webapp.dir}">
+                <include name="*.jsp" />
+                <include name="**/*.html" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="deploy-js-test"
+            description="For deploying changes and tests to a server, required for anything that uses AJAX.">
+        <delete dir="${test.deploy.dir}/${ant.project.name}-tests" />
+        <mkdir dir="${test.deploy.dir}/${ant.project.name}-tests" />
+        <mkdir dir="${test.deploy.dir}/${ant.project.name}-tests/META-INF" />
+        <mkdir dir="${test.deploy.dir}/${ant.project.name}-tests/WEB-INF" />
+        <mkdir dir="${test.deploy.dir}/${ant.project.name}-tests/WEB-INF/classes" />
+        <mkdir dir="${test.deploy.dir}/${ant.project.name}-tests/WEB-INF/lib" />
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/js">
+            <fileset dir="${src.webapp.dir}/js">
+                <exclude name="profiles" />
+                <exclude name="profiles/*" />
+            </fileset>
+            <fileset dir="${test.webapp.dir}/js">
+                <include name="**/*.js" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/lib" failonerror="false">
+            <fileset dir="${test.webapp.dir}/lib">
+                <include name="**/*" />
+            </fileset>
+            <fileset dir="${src.webapp.dir}/lib">
+                <include name="**/*" />
+            </fileset>
+            <fileset dir="${src.common.lib.dir}">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/spec">
+            <fileset dir="${test.webapp.dir}/spec">
+                <include name="**/*.js" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/js/mjs/fixtures">
+            <fileset dir="${test.webapp.dir}/fixtures">
+                <include name="**/*.js" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests">
+            <fileset dir="${test.webapp.dir}">
+                <include name="**/*.html" />
+                <include name="**/*.jsp" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/templates">
+            <fileset dir="${src.webapp.dir}/templates">
+                <include name="**/*.html" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/css">
+            <fileset dir="${src.webapp.dir}/css">
+                <include name="**/*.css" />
+            </fileset>
+        </copy>
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests/images">
+            <fileset dir="${src.webapp.dir}/images">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+    </target>
+
+</project>
