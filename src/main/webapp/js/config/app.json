@@ -1,4 +1,8 @@
 {
     "debug": true,
-    "source": "sfCrimeData10k.kml"
+    "source": "sfCrimeData10k.kml",
+    "layerViewer": {
+        "header": "Crimes",
+        "defaultMsg": "No crimes found"
+    }
 }

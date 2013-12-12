@@ -1,0 +1,13 @@
+<div class="control align-right">
+    <span><%= config.header %></span>
+    <table>
+        <% if (!layers || layers.length == 0){%>
+        <tr><td><%= config.defaultMsg %></td></tr>
+        <% } else {
+        layers.forEach(function(layer) {
+        var checked = layer.visible ? 'checked="checked"' : "";
+        %>
+        <tr><td><input type="checkbox" <%= checked %> /></td><td><%= layer.name %></td></tr>
+        <% }) } %>
+    </table>
+</div>
