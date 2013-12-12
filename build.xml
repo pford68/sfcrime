@@ -18,7 +18,7 @@
         <copy todir="${dev.deploy.dir}" file="${project.war}" />
     </target>
 
-    <target name="deploy-all" depends="deploy-js, deploy-css, deploy-images, deploy-markup">
+    <target name="deploy-all" depends="deploy-js, deploy-css, deploy-images, deploy-markup, deploy-kml">
         <delete dir="${dev.deploy.dir}/{ant.project.name}/WEB-INF" />
         <delete dir="${dev.deploy.dir}/{ant.project.name}/lib" />
         <copy todir="${dev.deploy.dir}/${ant.project.name}/WEB-INF">
@@ -127,6 +127,15 @@
         <copy todir="${test.deploy.dir}/${ant.project.name}-tests">
             <fileset dir="${src.dir}/resources">
                 <include name="**/*" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <target name="deploy-kml">
+        <copy todir="${dev.deploy.dir}/${ant.project.name}">
+            <fileset dir="${src.dir}/resources">
+                <include name="**/*.kml" />
             </fileset>
         </copy>
     </target>
