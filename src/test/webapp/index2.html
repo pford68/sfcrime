@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="http://ol3js.org/en/master/build/ol.css" type="text/css">
+    <style>
+        .map {
+            height: 800px;
+            width: 100%;
+        }
+    </style>
+    <script type="text/javascript">
+        var CLOSURE_NO_DEPS = true;
+    </script>
+    <script src="lib/OpenLayers-v3.0.0-beta.1/build/ol-whitespace.js" type="text/javascript"></script>
+    <script src="lib/jquery/jquery-1.9.0.js" type="text/javascript"></script>
+    <script src="lib/togeojson.js" type="text/javascript"></script>
+    <title>OpenLayers 3 example</title>
+</head>
+<body>
+<h2>My Map</h2>
+<div id="map" class="map"></div>
+<script type="text/javascript">
+    /*
+    var style = new ol.style.Style({
+        symbolizers: [
+            new ol.style.Shape({
+                //size: ol.expr.parse('5 + 20 * (magnitude - 5)'),
+                size: 10,
+                fill: new ol.style.Fill({
+                    color: '#ff9900',
+                    opacity: 0.4
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#ffcc00',
+                    opacity: 0.2
+                })
+            })
+        ]
+    });*/
+
+    var style = new ol.style.Style({rules: [
+        new ol.style.Rule({
+            filter: 'type == "Burglary"',
+            symbolizers: [
+                new ol.style.Shape({
+                    size: 10,
+                    fill: new ol.style.Fill({
+                        color: '#0000FF',
+                        opacity: 0.4
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc00',
+                        opacity: 0.2
+                    })
+                })
+            ]
+        }),
+        new ol.style.Rule({
+            filter: 'type == "Robbery"',
+            symbolizers: [
+                new ol.style.Shape({
+                    size: 10,
+                    fill: new ol.style.Fill({
+                        color: '#00FF00',
+                        opacity: 0.4
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc00',
+                        opacity: 0.2
+                    })
+                })
+            ]
+        }),
+        new ol.style.Rule({
+            filter: 'type == "Theft"',
+            symbolizers: [
+                new ol.style.Shape({
+                    size: 10,
+                    fill: new ol.style.Fill({
+                        color: '#FF0000',
+                        opacity: 0.4
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc00',
+                        opacity: 0.2
+                    })
+                })
+            ]
+        }),
+        new ol.style.Rule({
+            symbolizers: [
+                new ol.style.Shape({
+                    size: 10,
+                    fill: new ol.style.Fill({
+                        color: '#ff9900',
+                        opacity: 0.4
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc00',
+                        opacity: 0.2
+                    })
+                })
+            ]
+        }),
+    ]});
+
+    var raster = new ol.layer.Tile({
+        source: new ol.source.MapQuestOpenAerial()
+    });
+
+
+    var parser = new ol.parser.GeoJSON();
+
+
+
+    var map = new ol.Map({
+        target: 'map',
+        layers: [
+            raster
+        ],
+        renderer: ol.RendererHint.CANVAS,
+        view: new ol.View2D({
+            center: ol.proj.transform([-122.409037,37.775137], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 13
+        })
+    });
+
+    var crimes = {};
+    $.get('sfCrimeData10k.kml', function(kmlString){
+        var geoJSON = toGeoJSON.kml(kmlString);
+        console.log("[geojson]", geoJSON);
+        geoJSON.features.forEach(function(feature){
+            //console.log("[feature]", feature);
+            var type = feature.properties.type;
+            if (!type) return;
+            if (!crimes[type]) crimes[type] = { type: "FeatureCollection", features: []};
+            crimes[type].features.push(feature);
+        });
+        console.log(crimes);
+        for (var i in crimes){
+            map.addLayer(new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    data: crimes[i],
+                    parser: parser
+                }),
+                style: style
+            }));
+        }
+       console.log("[layers]", map.getLayerGroup().getLayers())
+    });
+
+</script>
+</body>
+</html>

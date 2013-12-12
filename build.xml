@@ -27,9 +27,6 @@
         <copy todir="${dev.deploy.dir}/${ant.project.name}/lib">
             <fileset dir="${src.webapp.dir}/lib" />
         </copy>
-        <copy todir="${dev.deploy.dir}/${ant.project.name}/lib">
-            <fileset dir="${src.common.lib.dir}" />
-        </copy>
     </target>
 
     <target name="deploy-js"
@@ -94,9 +91,6 @@
             <fileset dir="${src.webapp.dir}/lib">
                 <include name="**/*" />
             </fileset>
-            <fileset dir="${src.common.lib.dir}">
-                <include name="**/*" />
-            </fileset>
         </copy>
         <copy todir="${test.deploy.dir}/${ant.project.name}-tests/spec">
             <fileset dir="${test.webapp.dir}/spec">
@@ -126,6 +120,12 @@
         </copy>
         <copy todir="${test.deploy.dir}/${ant.project.name}-tests/images">
             <fileset dir="${src.webapp.dir}/images">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+
+        <copy todir="${test.deploy.dir}/${ant.project.name}-tests">
+            <fileset dir="${src.dir}/resources">
                 <include name="**/*" />
             </fileset>
         </copy>
