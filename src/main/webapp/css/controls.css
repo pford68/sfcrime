@@ -3,11 +3,11 @@
     position: absolute;
 }
 
-.align-right {
-    left: 0px;
-    top: 100px;
+.align-left {
+    left: 10px;
+    top: 200px;
 }
 
 .layerViewer {
-
+    max-width: 400px;
 }

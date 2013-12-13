@@ -9,22 +9,26 @@ define([
     'model/LayerCollection'
 ], function ($, ol, StyleRules, toGeoJSON, Configuration, Util, decorate, LayerCollection) {
 
-    var map,
+    var map, $public,
         crimeList = new LayerCollection(),
         crimes = {},
         parser = new ol.parser.GeoJSON(),
-        raster = new ol.layer.Tile({
-            source: new ol.source.MapQuestOpenAerial()
-        });
+        baseLayers = [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }), new ol.layer.Tile({
+                source: new ol.source.Stamen({
+                    layer: 'terrain-labels'
+                })
+            })
+        ];
 
 
-    return {
+    $public = {
         init: function (kml) {
             map = new ol.Map({
                 target: 'map',
-                layers: [
-                    raster
-                ],
+                layers: baseLayers,
                 renderer: ol.RendererHint.CANVAS,
                 view: new ol.View2D({
                     center: ol.proj.transform([-122.409037, 37.775137], 'EPSG:4326', 'EPSG:3857'),
@@ -39,12 +43,13 @@ define([
 
             (1) I need the KML data to be on separate layers in order to filter later on by toggling layers on/off,
                 and to apply separate styles to the different data types easily. For that reason alone, I cannot simply
-                use the KML file in an ol.source.Vector.  So I have to parse the data separately in order to distribute it.
+                use the KML file in an ol.source.Vector.  So I have to parse the data separately in order to distribute
+                it to different layers.
             (2) I had to convert the KML to GeoJSON because I found that I was having trouble plotting ol.Features in
                 OpenLayers 3 without using a parser in the ol.source.Vector.  If I simply created ol.Features from
                 the KML data, then tried to add the features to a Vector layer, I found that the points all appeared at
                 0,0.  This is my first foray into OL 3, and I might have been doing something wrong.  Since I could not
-                find the answer within the time allowed, I proceeded with a workaround.
+                find the answer within the time allowed, however, I proceeded with a workaround.
              */
             $.get(kml, function (kmlString){
                 /*
@@ -62,7 +67,8 @@ define([
                     crimes[type].features.push(feature);
                 });
                 Util.log(crimes);
-                decorate(crimes).forEach(function(crime){
+
+                decorate(crimes).forEach(function(crime, name){
                     map.addLayer(new ol.layer.Vector({
                         source: new ol.source.Vector({
                             data: crime,
@@ -70,22 +76,69 @@ define([
                         }),
                         style: StyleRules.get()
                     }));
-                });
-                Object.keys(crimes).forEach(function(name){
-                    crimeList.add({ name: name });
+                    crimeList.add({
+                        name: name,
+                        featureCount: crime.features.length,
+                        index: $public.getLayers().length - 1
+                    });
                 });
                 Util.log("[layer names", crimeList.models);
-                Util.log("[layers]", map.getLayerGroup().getLayers())
+                Util.log("[layers]", map.getLayerGroup().getLayers());
             });
 
         },
+        /**
+         * Returns the crime data as geojson.
+         * @returns {*}
+         */
         getGeoJSON: function(){
             return $.extend({}, crimes);  // Cloning in order to protect the data.
         },
+        /**
+         * Returns information about the map layers, including the name, visibility, and featureCount.
+         * @returns {model.LayerCollection}
+         */
         getLayerInfo: function(){
             return crimeList;
+        },
+        /**
+         * Returns the map layers that display crime data.  Does not return the base layers.
+         * @returns {Array}
+         */
+        getLayers: function(){
+            var layers = [].concat(map.getLayers().getArray()); // Ensuring that I do not modify the map's layer set.
+            return layers.slice(baseLayers.length); // Excluding the base layers.
+        },
+        /**
+         *
+         * @param node
+         * @param layer
+         */
+        bindLayerVisibility: function(node, layer){
+            var input = new ol.dom.Input(node);
+            input.bindTo('checked', layer, 'visible');
+            return input;
+        },
+        unbindLayerVisibility: function(input){
+            input.unbindAll();
+            input = null;
+        },
+        /**
+         *
+         * @param name
+         * @param data
+         */
+        addLayer: function(name, data){
+            map.addLayer(new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    data: data,
+                    parser: parser
+                }),
+                style: StyleRules.get()
+            }));
+            crimeList.add({ name: name });
         }
     }
 
-
+    return $public;
 })

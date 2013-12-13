@@ -2,7 +2,7 @@
     "debug": true,
     "source": "sfCrimeData10k.kml",
     "layerViewer": {
-        "header": "Crimes",
-        "defaultMsg": "No crimes found"
+        "header": "Types of Crimes",
+        "defaultMsg": "No crimes were found"
     }
 }

@@ -40,7 +40,7 @@
         'views/LayerViewer'
     ], function($, MapRenderer, Configuration, LayerViewer){
         MapRenderer.init(Configuration.getDataSource());
-        new LayerViewer().render();
+        new LayerViewer();
     })
 
 })()

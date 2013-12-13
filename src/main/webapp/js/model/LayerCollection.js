@@ -1,20 +1,21 @@
 define([
     'backbone',
-    'model/Layer'
-], function(Backbone, Layer){
+    'model/Layer',
+    'Util'
+], function(Backbone, Layer, Util){
 
     return Backbone.Collection.extend({
         model: Layer,
-        initialize: function(){
-            this.on("change:name", function(model){
-                console.log("[LayerCollection] name");
-            });
-            this.on("change:visible", function(model){
-                console.log("[LayerCollection] visible");
-            });
-            this.bind("add", function(layer){
-                console.log("[LayerCollection] added", layer.get("name"));
-            });
+        comparator: function(a, b){
+            var bCount = b.get("featureCount"),
+                aCount = a.get("featureCount");
+            return aCount > bCount ? -1 : ( aCount < bCount ? 1 : 0 );
+        },
+        /**
+         * To be called when the collection is considered filled.
+         */
+        dataLoaded: function(){
+            this.trigger('dataLoaded');
         }
     });
 });

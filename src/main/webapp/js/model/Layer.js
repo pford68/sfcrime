@@ -5,17 +5,22 @@ define([
     return Backbone.Model.extend({
         defaults: {
             name: "",
-            visible: true
+            visible: true,
+            featureCount: 0
         },
         initialize: function(){
             this.on("change:name", this.onNameChange);
-            this.on("change:visible", this.onVisibileChange);
+            this.on("change:visible", this.onVisibilityChange);
+            this.on("change:featureCount", this.onFeatureCountChanged);
         },
         onNameChange: function(instance){
-            console.log("Name changed to '" + instance.get("name") + "'");
+            // TODO
         },
-        onVisibileChange: function(instance){
-            console.log("Visibile changed to '" + instance.get("visible") + "'");
+        onVisibilityChange: function(instance){
+            // TODO
+        },
+        onFeatureCountChanged: function(instance){
+
         }
     });
 })
