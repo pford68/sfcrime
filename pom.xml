@@ -12,14 +12,6 @@
     <build>
         <finalName>crime-visualization</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-            </plugin>
             <!-- Didn't write any specs after all.
             <plugin>
                 <groupId>com.github.searls</groupId>
@@ -41,12 +33,29 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>copy-kml</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${project.build.directory}/${project.build.finalName}">
+                                    <fileset dir="${project.basedir}/src/main/resources">
+                                        <include name="**/*.kml" />
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
                         <id>optimize-js</id>
                         <phase>process-classes</phase>
                         <configuration>
                             <tasks>
                                 <exec executable="${env.NODE_HOME}">
-                                    <arg line="r.js -o profiles/crime-viz-with-deps.js name=bootstrap out=target/crime-visualization-min.js" />
+                                    <arg line="r.js -o profiles/crime-viz-with-deps.js name=bootstrap out=target/${project.build.finalName}/js/crime-visualization-min.js" />
                                 </exec>
                             </tasks>
                         </configuration>
@@ -60,7 +69,7 @@
                         <configuration>
                             <target>
                                 <exec executable="${env.NODE_HOME}">
-                                    <arg line="r.js -o cssIn=src/main/webapp/css/main.css out=target/crime-visualization-min.css" />
+                                    <arg line="r.js -o cssIn=src/main/webapp/css/main.css out=target/${project.build.finalName}/css/crime-visualization-min.css" />
                                 </exec>
                             </target>
                         </configuration>
@@ -86,18 +95,17 @@
                             <goal>single</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>src</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <descriptor>src/assembly/src.xml</descriptor>
-                            <finalName>crime-visualization-${project.version}</finalName>
-                        </configuration>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080/manager/text</url>
+                    <server>dev</server>
+                    <path>/${project.build.finalName}</path>
+                </configuration>
             </plugin>
         </plugins>
     </build>

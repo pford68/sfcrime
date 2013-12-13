@@ -8,9 +8,10 @@
         <fileSet>
             <directory>target/${project.name}</directory>
             <outputDirectory>${project.name}</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
+            <excludes>
+                <exclude>WEB-INF/**</exclude>
+                <exclude>META-INF/**</exclude>
+            </excludes>
         </fileSet>
     </fileSets>
 </assembly>
