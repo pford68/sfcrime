@@ -28309,7 +28309,7 @@ ol.parser.KML = function(opt_options) {
   }, "Data":function(node, attributes) {
     var data = {};
     this.readChildNodes(node, data);
-    attributes[node.getAttribute("name")] = data["value"] || node.textContent; // PF:  added default to node.textContent
+    attributes[node.getAttribute("name")] = data["value"]
   }, "when":function(node, container) {
     var value = this.getChildValue(node);
     var split1 = value.split("T");

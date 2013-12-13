@@ -1,0 +1,24 @@
+{
+    "debug": true,
+    "source": "sfCrimeData10k.kml",
+    "layerViewer": {
+        "header": "Types of Crimes",
+        "defaultMsg": "No crimes were found"
+    },
+    "colors": {
+        "#00CC00": "#00FF00",
+        "#FFCC00": "#FFFF00",
+        "#FF9900": "#FFCC00",
+        "#CC3366": "#CC6666",
+        "#0066CC": "#0099CC",
+        "#9966CC": "#9999CC",
+        "#FF0000": "#FF3300",
+        "#663366": "#666666",
+        "#000000": "#CCFF99",
+        "#0000FF": "#0033FF",
+        "#000099": "#003399",
+        "#003300": "#006600",
+        "#663399": "#666699",
+        "#505050": "#585858 "
+    }
+}

@@ -1,0 +1,13 @@
+.control {
+    z-index: 9999;
+    position: absolute;
+}
+
+.align-left {
+    left: 10px;
+    top: 200px;
+}
+
+.layerViewer {
+    max-width: 400px;
+}

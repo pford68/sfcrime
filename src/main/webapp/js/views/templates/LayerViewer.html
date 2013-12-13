@@ -1,0 +1,25 @@
+<div class="control align-left layerViewer">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox" checked="checked" /></th>
+                <th colspan="2"><%= config.header %></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (!layers || layers.length == 0){%>
+            <tr><td><%= config.defaultMsg %></td></tr>
+            <% } else {
+            layers.forEach(function(layer) {
+            var checked = layer.visible ? 'checked="checked"' : "";
+            var layerIndex = layer.index;
+            %>
+            <tr>
+                <td><input class="layer-bound" type="checkbox" <%= checked %> /></td>
+                <td><%= layer.name %></td>
+                <td><span class="badge" style="background-color: <%=colors[layerIndex] %>"><%= layer.featureCount %></span></td>
+            </tr>
+            <% }) } %>
+        </tbody>
+    </table>
+</div>
