@@ -1,4 +1,4 @@
-<div class="control align-left layerViewer">
+<div>
     <table>
         <thead>
             <tr>
@@ -10,7 +10,7 @@
             <% if (!layers || layers.length == 0){%>
             <tr><td><%= config.defaultMsg %></td></tr>
             <% } else {
-            layers.forEach(function(layer) {
+            layers.forEach(function(layer, index) {
             var checked = layer.visible ? 'checked="checked"' : "";
             var layerIndex = layer.index;
             %>

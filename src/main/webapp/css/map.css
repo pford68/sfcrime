@@ -1,5 +1,14 @@
+
 .map {
     height: 800px;
     width: 100%;
     overflow: hidden;
+    border: 3px solid silver;
+    margin: 0;
+}
+
+.crime-page-header {
+    text-indent: 10px;
+    padding: 0;
+    width: 100%;
 }

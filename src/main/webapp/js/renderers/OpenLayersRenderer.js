@@ -45,7 +45,7 @@ define([
             });
 
             /*
-            Below I am doing a curious thing.  After pulling the KML file through AJAX, I am converting it to
+            Below I am doing a strange thing.  After pulling the KML file through AJAX, I am converting it to
             GeoJSON, then using an OL 3 GeoJSON parser to add the data to the map.  I have two reasons for
             converting the data to GeoJSON:
 
@@ -91,7 +91,7 @@ define([
                         index: $public.getLayers().length - 1
                     });
                 });
-                Util.log("[layer names", crimeList.models);
+                Util.log("[layer names]", crimeList.models);
                 Util.log("[layers]", map.getLayerGroup().getLayers());
             });
 

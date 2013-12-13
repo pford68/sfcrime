@@ -34,7 +34,9 @@
         <delete dir="${dev.deploy.dir}/${ant.project.name}/js" />
         <mkdir dir="${dev.deploy.dir}/${ant.project.name}/js" />
         <copy todir="${dev.deploy.dir}/${ant.project.name}/js">
-            <fileset dir="${src.webapp.dir}/js" />
+            <fileset dir="${src.webapp.dir}/js">
+                <exclude name="**/*.txt" />
+            </fileset>
         </copy>
     </target>
 

@@ -1,6 +1,6 @@
 (function(){
     // Globals
-    CLOSURE_NO_DEPS = true;
+    CLOSURE_NO_DEPS = true;   // Prevents 404 errors on deps.js without this.
 
     requirejs.config({
         baseUrl: 'js',
@@ -23,13 +23,13 @@
         paths: {
             jquery: '../lib/jquery/jquery-1.9.0',
             OpenLayers: '../lib/OpenLayers-v3.0.0-beta.1/build/ol-whitespace',
-            toGeoJSON: '../lib/togeojson',
-            text: '../lib/requirejs/text',
-            json: '../lib/requirejs/json',
+            toGeoJSON: '../lib/togeojson',                  // Converts KML to GeoJSON
+            text: '../lib/requirejs/text',                  // For importing HTML templates with requirejs
+            json: '../lib/requirejs/json',                  // For importing JSON files with requirejs
             backbone: '../lib/backbone/backbone-min',
             underscore: '../lib/backbone/underscore-min',
-            templates: 'views/templates',
-            MapRenderer: 'renderers/OpenLayersRenderer'
+            templates: 'views/templates',                   // The location of the HTML template files
+            MapRenderer: 'renderers/OpenLayersRenderer'     // The current map API's wrapper.  To use a different API, point to a different MapRenderer impl.
         }
     });
 

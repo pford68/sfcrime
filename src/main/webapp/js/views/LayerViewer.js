@@ -17,10 +17,12 @@ define([
 
     return Backbone.View.extend({
         model: MapRenderer.getLayerInfo(),
+        el: '<div class="control align-left layerViewer"></div>',
         events:{
             "click th input[type=checkbox]": "selectAll"
         },
         initialize: function(){
+            this.$el.css("visibility", "hidden");   // @visibility: This next line produces an ugly square until render() is called.
             $('body').append(this.$el);
             this.model.bind("add remove change", this.dataChanged, this);
         },
@@ -33,6 +35,8 @@ define([
                 config: config ? config.layerViewer : { header: "Layer Viewer", defaultMsg: "No layers found."},
                 colors: Object.keys(config.colors)
             }));
+
+            this.$el.css("visibility", "visible");  // See @visibility above.
         },
         /**
          * Fired when the model is updated.
