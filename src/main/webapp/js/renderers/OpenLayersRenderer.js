@@ -110,20 +110,28 @@ define([
             return layers.slice(baseLayers.length); // Excluding the base layers.
         },
         /**
+         * Binds the layer's visibility to the value of the specified property of the node.
          *
-         * @param node
+         * @param node The HTML node that controls the layer's visibility
+         * @param property  The property of node to bind the layer's visibility to.
          * @param layer
+         * @returns {ol.dom.Input}
          */
-        bindLayerVisibility: function(node, layer){
+        bindLayerVisibility: function(node, property, layer){
             var input = new ol.dom.Input(node);
-            input.bindTo('checked', layer, 'visible');
+            input.bindTo(property, layer, 'visible');
             return input;
         },
+        /**
+         * Unbinds all OpenLayers events from the specified ol.dom.Input
+         * @param {ol.dom.Input} input
+         */
         unbindLayerVisibility: function(input){
             input.unbindAll();
             input = null;
         },
         /**
+         * Adds a layer to the map
          *
          * @param name
          * @param data

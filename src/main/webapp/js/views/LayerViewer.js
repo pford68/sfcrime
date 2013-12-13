@@ -5,8 +5,9 @@ define([
     'backbone',
     'text!templates/LayerViewer.html',
     'MapRenderer',
-    'model/Configuration'
-], function($, _, Backbone, html, MapRenderer, Configuration){
+    'model/Configuration',
+    "Util"
+], function($, _, Backbone, html, MapRenderer, Configuration, Util){
 
     var config = Configuration.toJSON(),
         targets = [];
@@ -24,7 +25,6 @@ define([
          * Displays the LayerViewer
          */
         render: function(){
-            //console.log("[LayerViewer render", _.template(html, { layers: this.model.toJSON() } ));
             this.$el.html(_.template(html, {
                 layers: this.model.toJSON(),
                 config: config ? config.layerViewer : { header: "Layer Viewer", defaultMsg: "No layers found."}
@@ -44,7 +44,7 @@ define([
             $(".layer-bound", this.$el).each(function(index, node){
                 var layerIndex = model.at(index).get("index");
                 Util.log("index", layerIndex);
-                targets.push(MapRenderer.bindLayerVisibility(node, layers[layerIndex]));
+                targets.push(MapRenderer.bindLayerVisibility(node, "checked", layers[layerIndex]));
             })
         },
         /**
