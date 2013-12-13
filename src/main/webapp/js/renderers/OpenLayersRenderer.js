@@ -1,3 +1,6 @@
+/**
+ * An OpenLayers 3 implementation of a map renderer interface.
+ */
 define([
     'jquery',
     'OpenLayers',
@@ -25,7 +28,12 @@ define([
 
 
     $public = {
-        init: function (kml) {
+        /**
+         * Creates a map renderer singleton
+         * @param kml
+         */
+        getInstance: function (kml) {
+            if (map) return;
             map = new ol.Map({
                 target: 'map',
                 layers: baseLayers,

@@ -1,3 +1,6 @@
+/**
+ * A collection of model/Layer objects.
+ */
 define([
     'backbone',
     'model/Layer',

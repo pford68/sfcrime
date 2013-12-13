@@ -1,4 +1,6 @@
-
+/**
+ * Accesses configuration values set in /config/app.json.
+ */
 define([
     'json!../config/app.json',
     'backbone'

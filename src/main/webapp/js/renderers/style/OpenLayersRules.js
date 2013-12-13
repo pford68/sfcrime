@@ -1,3 +1,6 @@
+/**
+ * Creates an OpenLayers 3 rule-based style object, using colors from the Configuration singleton.
+ */
 define([
     'OpenLayers',
     "model/Configuration",

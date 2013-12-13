@@ -1,4 +1,7 @@
-
+/**
+ * Lists the available layers, other than the base layer(s) and allows their visibility to be toggle.  The layers
+ * are also color-coded.
+ */
 define([
     'jquery',
     'underscore',

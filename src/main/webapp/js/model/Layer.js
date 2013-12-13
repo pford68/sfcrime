@@ -1,3 +1,6 @@
+/**
+ * Represents a subset of available map layer information
+ */
 define([
  'backbone'
 ], function(Backbone){
@@ -20,7 +23,7 @@ define([
             // TODO
         },
         onFeatureCountChanged: function(instance){
-
+            // TODO
         }
     });
 })

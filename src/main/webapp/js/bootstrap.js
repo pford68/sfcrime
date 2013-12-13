@@ -39,7 +39,7 @@
         'model/Configuration',
         'views/LayerViewer'
     ], function($, MapRenderer, Configuration, LayerViewer){
-        MapRenderer.init(Configuration.getDataSource());
+        MapRenderer.getInstance(Configuration.getDataSource());
         new LayerViewer();
     })
 
