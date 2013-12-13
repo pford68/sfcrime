@@ -23,7 +23,8 @@ define([
         var count = 0;
 
         /*
-        Apparently no heatmap is available for OL 3 yet.  However, I can achieve a similar effect by setting the
+        NOTES:
+        Apparently no heatmap is available for OL 3 yet.  However, I can achieve a similar effect below by setting the
         opacity of the points to less than 1.0.  Then points that overlap or congregate create darker regions.
         Unfortunately the effect is lost as you zoom in.
 
@@ -32,6 +33,12 @@ define([
 
         Clustering was another possibility, but (1) I did not see on OL 3 strategy for clustering, and (2) I preferred
         the heatmao-like effect achieved by the semi-transparent separate points.
+         */
+
+        /*
+        Creating a style rule for each filter.  I want the application to be agnostic about the information it's dealing with.
+        If, for example, we hard-coded the crime types in the rules below, what would happen if those values are different
+        in other sets of crime data?
          */
         decorate(colors).forEach(function (stroke, fill) {
 

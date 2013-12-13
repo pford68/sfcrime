@@ -4,7 +4,7 @@
 
     DESCRIPTION:  Ant scripts for the JavaScript builds.
     AUTHOR:  Philip Ford
-    COMMENTS:
+    COMMENTS: I use this primarily during development to deploy changed files quickly.
 
     =======================================================================================-->
 

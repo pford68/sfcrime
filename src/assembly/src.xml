@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>src</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>target/${project.name}</directory>
+            <outputDirectory>${project.name}</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

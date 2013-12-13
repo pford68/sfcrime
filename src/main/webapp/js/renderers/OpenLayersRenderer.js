@@ -153,9 +153,13 @@ define([
                 }),
                 style: StyleRules.get()
             }));
-            crimeList.add({ name: name });
+            crimeList.add({
+                name: name,
+                featureCount: data.features.length,
+                index: $public.getLayers().length - 1
+            });
         }
-    }
+    };
 
     return $public;
 })

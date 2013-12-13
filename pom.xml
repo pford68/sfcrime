@@ -9,5 +9,97 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
+    <build>
+        <finalName>crime-visualization</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <!-- Didn't write any specs after all.
+            <plugin>
+                <groupId>com.github.searls</groupId>
+                <artifactId>jasmine-maven-plugin</artifactId>
+                <configuration>
+                    <specIncludes>
+                    </specIncludes>
+                </configuration>
+            </plugin>
+            -->
+            <!--
+            Using ant to run r.js (through node) because the requirejs-maven-plugin would not work.
+            The build continually failed with the error "r.js exited with an error" and no useful information
+            about why.  Meanwhile node ran r.js from the command line and produced an optimized JS file
+            without an error.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>optimize-js</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <tasks>
+                                <exec executable="${env.NODE_HOME}">
+                                    <arg line="r.js -o profiles/crime-viz-with-deps.js name=bootstrap out=target/crime-visualization-min.js" />
+                                </exec>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>optimize-css</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <target>
+                                <exec executable="${env.NODE_HOME}">
+                                    <arg line="r.js -o cssIn=src/main/webapp/css/main.css out=target/crime-visualization-min.css" />
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>dist</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptor>src/assembly/dist.xml</descriptor>
+                            <finalName>crime-visualization-${project.version}</finalName>
+                        </configuration>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>src</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <descriptor>src/assembly/src.xml</descriptor>
+                            <finalName>crime-visualization-${project.version}</finalName>
+                        </configuration>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
