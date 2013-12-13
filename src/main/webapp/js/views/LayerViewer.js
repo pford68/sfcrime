@@ -27,7 +27,8 @@ define([
         render: function(){
             this.$el.html(_.template(html, {
                 layers: this.model.toJSON(),
-                config: config ? config.layerViewer : { header: "Layer Viewer", defaultMsg: "No layers found."}
+                config: config ? config.layerViewer : { header: "Layer Viewer", defaultMsg: "No layers found."},
+                colors: Object.keys(config.colors)
             }));
         },
         /**

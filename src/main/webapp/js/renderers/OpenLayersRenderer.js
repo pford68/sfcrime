@@ -68,6 +68,7 @@ define([
                 });
                 Util.log(crimes);
 
+                StyleRules.build(Object.keys(crimes));
                 decorate(crimes).forEach(function(crime, name){
                     map.addLayer(new ol.layer.Vector({
                         source: new ol.source.Vector({

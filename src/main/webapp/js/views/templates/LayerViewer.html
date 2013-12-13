@@ -12,11 +12,12 @@
             <% } else {
             layers.forEach(function(layer) {
             var checked = layer.visible ? 'checked="checked"' : "";
+            var layerIndex = layer.index;
             %>
             <tr>
                 <td><input class="layer-bound" type="checkbox" <%= checked %> /></td>
                 <td><%= layer.name %></td>
-                <td><span class="badge"><%= layer.featureCount %></span></td>
+                <td><span class="badge" style="background-color: <%=colors[layerIndex] %>"><%= layer.featureCount %></span></td>
             </tr>
             <% }) } %>
         </tbody>
