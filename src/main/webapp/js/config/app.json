@@ -1,5 +1,5 @@
 {
-    "debug": true,
+    "debug": false,
     "source": "sfCrimeData10k.kml",
     "layerViewer": {
         "header": "Types of Crimes",
