@@ -24,7 +24,7 @@ define([
         initialize: function(){
             this.$el.css("visibility", "hidden");   // @visibility: This next line produces an ugly square until render() is called.
             $('body').append(this.$el);
-            this.model.bind("add remove change", this.dataChanged, this);
+            this.model.on("add remove change", this.dataChanged, this);
         },
         /**
          * Displays the LayerViewer
