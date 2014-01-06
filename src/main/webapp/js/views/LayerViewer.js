@@ -22,7 +22,7 @@ define([
             "click th input[type=checkbox]": "selectAll"
         },
         initialize: function(){
-            this.$el.css("visibility", "hidden");   // @visibility: This next line produces an ugly square until render() is called.
+            this.$el.css("visibility", "hidden");   // #visibility: This next line produces an ugly square until render() is called.
             $('body').append(this.$el);
             this.model.on("add remove change", this.dataChanged, this);
         },
@@ -36,7 +36,7 @@ define([
                 colors: Object.keys(config.colors)
             }));
 
-            this.$el.css("visibility", "visible");  // See @visibility above.
+            this.$el.css("visibility", "visible");  // See #visibility above.
         },
         /**
          * Fired when the model is updated.
